@@ -1,6 +1,8 @@
 const grid = document.querySelector("[data-grid]");
 let primeiroCard = "";
 let segundoCard = "";
+const jogador = document.querySelector("[data-jogador]");
+const tempo = document.querySelector("[data-tempo]");
 
 const personargens = [
   "beth",
@@ -23,7 +25,10 @@ function criarElemento(tag, classe) {
 function checarVitoria() {
   const cardsDesabilitados = document.querySelectorAll(".desabilitarCard");
   if (cardsDesabilitados.length === 20) {
-    window.alert("Parabéns você ganhou!");
+    clearInterval(this.loop);
+    window.alert(
+      `Parabéns, ${jogador.innerHTML} seu tempo foi ${tempo.innerHTML}`
+    );
   }
 }
 
@@ -83,4 +88,15 @@ function carregarJogo() {
   });
 }
 
-carregarJogo();
+function comecarTempo() {
+  this.loop = setInterval(() => {
+    const tempoAtual = +tempo.innerHTML;
+    tempo.innerHTML = tempoAtual + 1;
+  }, 1000);
+}
+
+window.onload = () => {
+  jogador.innerHTML = localStorage.getItem("player");
+  carregarJogo();
+  comecarTempo();
+};
