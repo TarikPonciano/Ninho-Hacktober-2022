@@ -91,6 +91,11 @@ voltar:
         else:
             print("???")
 
+    if (command == "olhar"):
+        if (room == "sala"):
+            print("A luz está apagada, e consigo somente enxergar a TV e o tapete que está sendo iluminada pela TV.")
+            print("Preciso acender a luz pelo interruptor.")
+
     if (command == "usar"):
         #item
         if (len(id) == 1):
@@ -117,14 +122,19 @@ voltar:
                                 else:
                                     # room dependant actions
                                     if (room == "sala"):
-                                        if (id[4] == "porta"):
-                                            # usar chave
-                                            if (id[2] == "chave"):
+                                        # usar chave
+                                        if (id[2] == "chave"):
+                                            if (id[4] == "porta"):
+                                                if (storyline_array[0] == 2): 
+                                                    print("Se eu tentar destrancar outra vez, a chave pode quebrar dentro da tranca... É... Não vamos fazer isso.")
+                                                if (storyline_array[0] == 1): 
+                                                    print("Agora a porta realmente foi destrancada.")
+                                                    storyline_array[0] = 2
                                                 if (storyline_array[0] == 0):
                                                     storyline_array[0] = 1
                                                     print("A porta foi destrancada!")
-                                                else:
-                                                    print("Não vou destrancar algo duas vezes.")
+                                            elif (id[4] == "tapete"):
+                                                print("Infelizmente isso não é um meio de transporte. Bem que poderia ser.")
                                             else:
                                                 print("Não posso usar isso aqui.")
                     else:
@@ -132,12 +142,46 @@ voltar:
             
             #room dependant actions
             if (room == "sala"):
+                if (id[1] == "tapete"):
+                    if (storyline_array[0] < 2):
+                        if (storyline_array[10] == 2):
+                            print("Claro que não fui eu que fiz isso. Confia...")
+
+                        if (storyline_array[10] == 1):
+                            if (storyline_array[8] == 0):
+                                print("Tento o meu máximo para tentar enxergar se tem algo no tapete... E achei... poeira.  Muita poeira debaixo do tapete...")
+                            else:
+                                print("huh? muita poeira embaixo do tapete?!? Não tinha visto isso antes.")
+                            storyline_array[10] = 2
+
+                        if (storyline_array[10] == 0):
+                            if (storyline_array[8] == 0):
+                                print("Tento o meu máximo para tentar enxergar se tem algo no tapete... E achei... uma chave. Isso mesmo.")
+                                storyline_array[10] = 1
+                            else:
+                                print("Levantei o tapete e achei uma chave! E muita poeira...")
+                                storyline_array[10] = 2
+                            
+                            print("Agora, como isso foi parar ali? Escondendo a chave reserva? Mas isso não era pra estar em um local bem escondido... NO LADO DE FORA???")
+                            inventory[0] = 1
+                    else:
+                        print("Limpo isso depois...")
+
                 if (id[1] == "porta"):
                     if (storyline_array[0] == 0):
                         print("Está trancada... Preciso de uma chave.")
-                    else:
-                        print("Você consegue sair a tempo em", time, "minutos")
+                    if (storyline_array[0] == 1):
+                        print("Lembrei que dei duas voltas na tranca... Oops!")
+                    if (storyline_array[0] == 2):
+                        print("Consegui sair a tempo em", time, "minutos")
                         exit()
+
+                if (id[1] == "interruptor"):
+                    if (storyline_array[8] == 0):
+                        print("Click! A luz acende.")
+                        storyline_array[8] = 1
+                    else:
+                        print("Não tenho medo do escuro, mas vamos deixar acesa por enquanto.")
 
     # Action ended, go back to input mode.
     inputMode()
@@ -158,7 +202,7 @@ def inputMode():
         print("Você agora está em:", room)
         new_room = 0
     print("")
-    print("o que deseja fazer?")
+    print("o que fazer?")
     user_input = input("")
 
     get_action(user_input.split())
@@ -166,9 +210,9 @@ def inputMode():
 def displayInventory():
     storyline_array[15] = 1
     if (inventory[0] == 0):
-        print("Você tem nada no inventário!")
+        print("Tenho nada no inventário!")
     else:
-        print("Seu inventário:")
+        print("Inventário:")
         i = 0
         while i < len(inventory):
             if inventory[i] != 0:
@@ -199,11 +243,8 @@ def sortItems():
 
 
 # game start
-# start with a key in your inventory
-inventory[0] = 1
 
 print("(insira uma intro para uma história aqui)")
 print("Por agora, tem uma porta trancada na sala.")
 print('Digite "help" para visualizar comandos disponiveis')
-print("E olha só, uma chave já no seu inventário. Easy mode.")
 inputMode()
