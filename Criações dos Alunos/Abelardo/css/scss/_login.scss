@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: $font;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  img {
+    width: 100px;
+  }
+  h1 {
+    color: $fontePrincipal;
+    @include font(m);
+  }
+}
+.login-input {
+  border: 2px solid $fontePrincipal;
+  border-radius: 8px;
+  color: $fontePrincipal;
+  @include font(p);
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 400px;
+  outline: none;
+  padding: 15px;
+}
+
+.login-button {
+  background-color: $corBotao;
+  border-radius: 8px;
+  color: white;
+  padding: 15px;
+  cursor: pointer;
+  @include font(p);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-button:disabled {
+  background-color: $BotaoDisable;
+  color: $fonteDesabilitada;
+  cursor: auto;
+}
