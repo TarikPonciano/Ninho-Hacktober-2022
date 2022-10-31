@@ -1,0 +1,16 @@
+$fontePrincipal: #333;
+$fonteDesabilitada: #aaa;
+$corBotao: #ee665c;
+$BotaoDisable: #eee;
+
+$font: "Press Start 2P", cursive;
+@mixin font($tamanho) {
+  font-family: $font;
+  @if $tamanho == p {
+    font-size: 1rem;
+  } @else if $tamanho == m {
+    font-size: 1.5rem;
+  } @else if $tamanho == g {
+    font-size: 2rem;
+  }
+}
