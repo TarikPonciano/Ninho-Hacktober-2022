@@ -1,0 +1,11 @@
+n=0
+a=0
+b=0
+n=int(input("Digite um número inteiro:"))
+if n >= 0:
+  a=n
+  print(a, "é um valor positivo.")
+else:
+  b=n
+  print(b, "é um valor negativo.")
+
