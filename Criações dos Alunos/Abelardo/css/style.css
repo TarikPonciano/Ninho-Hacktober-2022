@@ -236,10 +236,34 @@ body {
   cursor: auto;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 20px 50px;
+  background-image: url(../images/bg.jpg);
+  background-size: cover;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px;
+  margin-bottom: 30px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  margin: 100px auto;
+  margin: 0 auto;
   gap: 15px;
   width: 100%;
   max-width: 800px;
@@ -249,7 +273,7 @@ body {
   aspect-ratio: 3/4;
   width: 100%;
   position: relative;
-  transition: all 400ms;
+  transition: all 400ms ease;
   transform-style: preserve-3d;
 }
 
@@ -278,6 +302,5 @@ body {
 }
 
 .desabilitarCard {
-  fill: saturate(0);
-  opacity: 0.5;
+  filter: grayscale(0.9);
 }
