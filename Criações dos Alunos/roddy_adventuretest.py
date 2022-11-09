@@ -27,34 +27,37 @@ def get_action(id):
         print("DEBUG: Comando:", command)
         print("DEBUG:", room_list)
     if (command == "help"):
-        print("""     Comandos Disponiveis
+        print("""Comandos:
 ir para:
- Vai a um Quarto Disponivel
-   Quartos Disponiveis:
- sala
- quarto
- cozinha
- banheiro
-
+ Vai para uma sala diferente
+ Quartos Disponíveis (por agora):
+  sala
+  quarto
+  cozinha
+  banheiro
 sair:
  Fecha o programa
-
 tempo:
  Olha o tempo
-
 inventario:
- Mostra os itens no inventario
-
+ Mostra os itens no inventário
 usar:
- um item que voce tem no inventario
-
+ Usa um item disponível no inventário
 voltar:
- Volta ao quarto em que voce estava
+ Volta à sala anterior em que estava
 """)
+
+    if (command == "test"):
+        global inventory
+        i = 0
+        while(i < len(inventory)):
+            getItem(1)
+            i += 1
+
 
     if (command == 'voltar'):
         if last_room == 1:
-            print("Voce ainda nao foi para nenhum lugar")
+            print("Você ainda não foi para nenhum lugar")
         else:
             auxiliar = last_room
             last_room = room
@@ -65,6 +68,7 @@ voltar:
     if (command == "ir"):
         if (id[1] == "para"):
             if id[2] in room_list:
+                last_room = room
                 room = id[2]
                 new_room = 1
             else:
@@ -133,6 +137,7 @@ voltar:
                                                 if (storyline_array[0] == 0):
                                                     storyline_array[0] = 1
                                                     print("A porta foi destrancada!")
+                                                useItem(1)
                                             elif (id[4] == "tapete"):
                                                 print("Infelizmente isso não é um meio de transporte. Bem que poderia ser.")
                                             else:
@@ -163,7 +168,7 @@ voltar:
                                 storyline_array[10] = 2
                             
                             print("Agora, como isso foi parar ali? Escondendo a chave reserva? Mas isso não era pra estar em um local bem escondido... NO LADO DE FORA???")
-                            inventory[0] = 1
+                            getItem(1)
                     else:
                         print("Limpo isso depois...")
 
@@ -222,6 +227,7 @@ def displayInventory():
 def checkItem(item):
     global inventory
     global items_list
+    slot_id = 0
     if item in items_list:
         item = items_list.index(item)
     else:
@@ -232,19 +238,63 @@ def checkItem(item):
     
     haveit = 0
     i = 0
-    while i < len(inventory):
-        if inventory[i] == item:
+    while ((i < len(inventory)) and haveit == 0):
+        if (inventory[i] == item):
             haveit = 1
+            slot_id = i
         i += 1
     return haveit
+    #return [haveit, slot_id]
+
+# use the first item it finds in the inventory of given id 
+def useItem(item_id):
+    global inventory
+    used = 0
+    i = 0
+    while ((i < len(inventory)) and used == 0):
+        if (inventory[i] == item_id):
+            inventory[i] = 0
+            used = 1
+            sortItems()
+        i += 1
+    
+
+def getItem(item_id):
+    if (debug == 1):
+        print("entered getItem() function")
+    global inventory
+    inserted = 0
+    i = 0
+    while ((i < len(inventory)) and inserted == 0):
+        if (inventory[i] == 0):
+            inventory[i] = item_id
+            return
+        i += 1
+    
+    if (inserted == 0):
+        print("Sem espaço no inventário!")
+
 
 def sortItems():
-    print("ojpabsgbjoçasgbkljasg")
+    global inventory
+    i = 1
+    while(i < len(inventory)):
+        # check if previous slot is empty
+        if (inventory[i-1] == 0):
+            # move item to previous slot
+            inventory[i-1] = inventory[i]
+            # empty out old slot
+            inventory[i] = 0
+        i += 1
 
 
 # game start
 
 print("(insira uma intro para uma história aqui)")
 print("Por agora, tem uma porta trancada na sala.")
-print('Digite "help" para visualizar comandos disponiveis')
+print('Digite "help" para visualizar comandos disponíveis')
 inputMode()
+
+
+
+# 300 lines :O
